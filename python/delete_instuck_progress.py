@@ -21,6 +21,7 @@ def drop_outdated_inprogress_file(abs_folder, filename):
 		today = date.today()
 		modification_day = date.fromtimestamp(modification_time)
 		if today > modification_day:
+			kill_instuck_process("start_backup.sh")
 			os.remove(os.path.join(abs_folder, filename))
 			return True
 	return False
@@ -28,7 +29,6 @@ def drop_outdated_inprogress_file(abs_folder, filename):
 if __name__ == "__main__":
 	try:
 		drop_outdated_inprogress_file('/data/ghe-production-data', 'in-progress')
-		kill_instuck_process("start_backup.sh")
 	except FileNotFoundError as e:
 		pass
 		# print("error: file does not exists: %s" % e.message)
